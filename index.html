@@ -34,7 +34,7 @@
     const pointerTarget = document.querySelector('.pointer-target');
     const pointerMessage = document.querySelector('.message');
 
-    pointerTarget.addEventListener('pointerenter', pointerEnter);
+    pointerTarget.addEventListener('pointerenter', pointerEnter, { passive: false });
     pointerTarget.addEventListener('pointerdown', pointerDown);
     pointerTarget.addEventListener('pointerup', pointerUp);
     pointerTarget.addEventListener('pointercancel', pointerCancel);
