@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <style>
+    body{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      height: 100vh;
+
+    }
+    .pointer-target{
+      background: pink;
+      height:50vh;
+      width: 60vw;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="pointer-target"><p class="message">Waiting for Event...</p></div>
+  
+  <script>
+    const pointerTarget = document.querySelector('.pointer-target');
+    const pointerMessage = document.querySelector('.message');
+
+    pointerTarget.addEventListener('pointerenter', pointerEnter);
+    pointerTarget.addEventListener('pointerdown', pointerDown);
+    pointerTarget.addEventListener('pointerup', pointerUp);
+    pointerTarget.addEventListener('pointercancel', pointerCancel);
+    pointerTarget.addEventListener('pointerout', pointerOut);
+    pointerTarget.addEventListener('pointermove', pointerMove);
+
+    function pointerEnter(e){
+      pointerMessage.textContent = 'Pointer entered';
+    }
+
+    function pointerDown(e){
+      pointerMessage.textContent = 'Pointer down X: ' + e.x + ' Y: ' + e.y;
+    }
+    
+    function pointerUp(e){
+      pointerMessage.textContent = 'Pointer up X: ' + e.x + ' Y: ' + e.y;
+    }
+    function pointerCancel(e){
+      pointerMessage.textContent = 'Pointer canceled';
+    }
+    function pointerOut(e){
+      pointerMessage.textContent = 'Pointer out';
+    }
+    function pointerMove(e){
+      pointerMessage.textContent = 'Pointer move X: ' + e.x + ' Y: ' + e.y;
+    }
+
+  </script>
+</body>
+</html>
