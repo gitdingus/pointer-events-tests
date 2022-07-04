@@ -24,6 +24,10 @@
 
       touch-action:none;
     }
+
+    .pointer-target *{
+      pointer-events: none;
+    }
   </style>
 </head>
 <body>
@@ -33,36 +37,44 @@
     const pointerTarget = document.querySelector('.pointer-target');
     const pointerMessage = document.querySelector('.message');
 
-    pointerTarget.addEventListener('pointerenter', pointerEnter, { passive: false });
-    pointerTarget.addEventListener('pointerdown', pointerDown);
-    pointerTarget.addEventListener('pointerup', pointerUp);
-    pointerTarget.addEventListener('pointercancel', pointerCancel);
+    pointerTarget.addEventListener('pointerenter', pointerEnter);
+
     pointerTarget.addEventListener('pointerout', pointerOut);
-    pointerTarget.addEventListener('pointermove', pointerMove);
 
+    let gotX;
     function pointerEnter(e){
-      pointerMessage.textContent += 'Pointer entered';
-    }
-
-    function pointerDown(e){
-      pointerMessage.textContent += 'Pointer down X: ' + e.x + ' Y: ' + e.y;
-    }
-    
-    function pointerUp(e){
-      pointerMessage.textContent += 'Pointer up X: ' + e.x + ' Y: ' + e.y;
-    }
-    function pointerCancel(e){
-      pointerMessage.textContent += 'Pointer canceled';
+      gotX = swipe({ enter: { x: e.x, y: e.y } });
     }
     function pointerOut(e){
-
-      pointerMessage.textContent += 'Pointer out';
-
-    }
-    function pointerMove(e){
-      pointerMessage.textContent = 'Pointer move X: ' + e.x + ' Y: ' + e.y;
+      getDirection(gotX({ out: { x: e.x, y: e.y } }));
     }
 
+
+    function swipe(coordinates){
+      let coords = {};
+
+      Object.assign(coords, coordinates);
+
+      return function (coordinates){
+        Object.assign(coords, coordinates);
+
+        return coords;
+      }
+
+    }
+
+    function getDirection({ enter, out }){
+      const xDiff = Math.abs(enter.x - out.x);
+      const yDiff = Math.abs(enter.y - out.y);
+
+      console.log(`xDiff: ${xDiff}`);
+      console.log(`yDiff: ${yDiff}`);
+      if (xDiff > yDiff){
+        pointerMessage.textContent = "Left/Right swipe";
+      } else {
+        pointerMessage.textContent = "Up/Down swipe";
+      }
+    }
   </script>
 </body>
 </html>
