@@ -42,24 +42,24 @@
     pointerTarget.addEventListener('pointermove', pointerMove);
 
     function pointerEnter(e){
-      pointerMessage.textContent = 'Pointer entered';
+      pointerMessage.textContent += 'Pointer entered';
     }
 
     function pointerDown(e){
-      pointerMessage.textContent = 'Pointer down X: ' + e.x + ' Y: ' + e.y;
+      pointerMessage.textContent += 'Pointer down X: ' + e.x + ' Y: ' + e.y;
     }
     
     function pointerUp(e){
-      pointerMessage.textContent = 'Pointer up X: ' + e.x + ' Y: ' + e.y;
+      pointerMessage.textContent += 'Pointer up X: ' + e.x + ' Y: ' + e.y;
     }
     function pointerCancel(e){
-      pointerMessage.textContent = 'Pointer canceled';
+      pointerMessage.textContent += 'Pointer canceled';
     }
     function pointerOut(e){
-      pointerMessage.textContent = 'Pointer out';
+      pointerMessage.textContent += 'Pointer out';
     }
     function pointerMove(e){
-      pointerMessage.textContent = 'Pointer move X: ' + e.x + ' Y: ' + e.y;
+      document.body.textContent = 'Pointer move X: ' + e.x + ' Y: ' + e.y;
     }
 
   </script>
