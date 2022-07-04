@@ -42,6 +42,7 @@
     pointerTarget.addEventListener('pointermove', pointerMove);
 
     function pointerEnter(e){
+      e.preventDefault();
       pointerMessage.textContent += 'Pointer entered';
       pointerTarget.setPointerCapture(e.pointerId);
       pointerMessage.textContent = "pointer captured";
@@ -58,8 +59,10 @@
       pointerMessage.textContent += 'Pointer canceled';
     }
     function pointerOut(e){
+
       pointerMessage.textContent += 'Pointer out';
       pointerTarget.releasePointerCapture(e.pointerId);
+
       pointerMessage.textContent = "pointer released";
 
     }
