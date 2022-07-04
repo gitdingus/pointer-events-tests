@@ -66,15 +66,17 @@
     function getDirection({ enter, out }){
       const xDiff = Math.abs(enter.x - out.x);
       const yDiff = Math.abs(enter.y - out.y);
+      let swipeDirection;
 
-      console.log(`xDiff: ${xDiff}`);
-      console.log(`yDiff: ${yDiff}`);
       if (xDiff > yDiff){
-        pointerMessage.textContent = "Left/Right swipe";
+        swipeDirection = enter.x > out.x ? "left" : "right";
       } else {
-        pointerMessage.textContent = "Up/Down swipe";
+        swipeDirection = enter.y > out.y ? "up" : "down";
       }
+
+      pointerMessage.textContent = `swiped ${swipeDirection}`;
     }
+
   </script>
 </body>
 </html>
