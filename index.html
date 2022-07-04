@@ -4,11 +4,8 @@
   <meta charset="UTF-8">
   <title>Document</title>
   <style>
-    html, body{
-      overflow: hidden;
-    }
+
     body{
-      position: relative;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -17,13 +14,15 @@
 
     }
     .pointer-target{
-      background: blue;
-      height:50vh;
+      background: orange;
+      height:60vh;
       width: 60vw;
 
       display: flex;
       justify-content: center;
       align-items: center;
+
+      touch-action:none;
     }
   </style>
 </head>
@@ -42,10 +41,7 @@
     pointerTarget.addEventListener('pointermove', pointerMove);
 
     function pointerEnter(e){
-      e.preventDefault();
       pointerMessage.textContent += 'Pointer entered';
-      pointerTarget.setPointerCapture(e.pointerId);
-      pointerMessage.textContent = "pointer captured";
     }
 
     function pointerDown(e){
@@ -61,13 +57,10 @@
     function pointerOut(e){
 
       pointerMessage.textContent += 'Pointer out';
-      pointerTarget.releasePointerCapture(e.pointerId);
-
-      pointerMessage.textContent = "pointer released";
 
     }
     function pointerMove(e){
-      //pointerMessage.textContent = 'Pointer move X: ' + e.x + ' Y: ' + e.y;
+      pointerMessage.textContent = 'Pointer move X: ' + e.x + ' Y: ' + e.y;
     }
 
   </script>
