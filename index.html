@@ -42,11 +42,28 @@
     pointerTarget.addEventListener('pointerout', pointerOut);
 
     let gotX;
+
+    let menu = menuCarosel();
+    let menuChoices = [ 'Home', 'Gallery', 'Shop', 'About', 'Contact', ];
+    menuChoices.forEach( item => menu.addMenuItem(item) );
+
+    let currentMenu = menu.getEntry();
+
+    pointerMessage.textContent = currentMenu.item();
+    
     function pointerEnter(e){
       gotX = swipe({ enter: { x: e.x, y: e.y } });
     }
     function pointerOut(e){
-      getDirection(gotX({ out: { x: e.x, y: e.y } }));
+      let direction = getDirection(gotX({ out: { x: e.x, y: e.y } }));
+      if (direction === 'left'){
+        currentMenu.stepBack();
+        pointerMessage.textContent = currentMenu.item();
+      } else if (direction === 'right'){
+        currentMenu.advance();
+        pointerMessage.textContent = currentMenu.item();
+      }
+
     }
 
 
@@ -74,9 +91,94 @@
         swipeDirection = enter.y > out.y ? "up" : "down";
       }
 
-      pointerMessage.textContent = `swiped ${swipeDirection}`;
+      return swipeDirection;
     }
 
+    function menuCarosel(){
+      /*
+       * each element will have displayName an a link to previous and next element
+       */
+      let head = {};
+      let first = {};
+      let last = {};
+      let current = head;
+
+      function addMenuItem(displayName){
+        addItem(displayName, head);
+      }
+      function addItem(displayName, current, previous){
+        if (isEmpty(current)){
+          current.displayName = displayName;
+          current.next = {};
+          if(previous !== undefined && !isEmpty(previous)){
+            current.previous = previous;
+          } else {
+            current.previous = {};
+          }
+          if (isEmpty(first)){
+            first = current;
+          }
+          return current;
+        }
+        else {
+          if (isEmpty(current.next)){
+            current.next = addItem(displayName, current.next, current);
+            last = current.next;
+          } else {
+            addItem(displayName, current.next, current);
+          }   
+          
+        }
+      }
+
+      function logList(currentItem = head){
+        if (!isEmpty(currentItem)){
+          console.log(currentItem.displayName);
+          logList(currentItem.next);
+        } else {
+          console.log("reached end of list");
+        }
+      }
+
+      function getEntry(){
+        currentNode = head;
+        return {
+           advance: function (){ 
+            if (isEmpty(currentNode.next)){
+              currentNode = first;
+              return currentNode;
+            }
+            currentNode = currentNode.next;
+            return currentNode;
+           },
+           stepBack: function(){
+            if (isEmpty(currentNode.previous)){
+              currentNode = last;
+              return currentNode;
+            }
+            currentNode = currentNode.previous;
+            return currentNode;
+           },
+           item: function(){
+            return currentNode.displayName;
+           },
+          }
+      }
+
+      function getFirst(){
+        return first;
+      }
+      function getLast(){
+        return last;
+      }
+      return { addMenuItem, logList, getEntry, getFirst, getLast }
+      
+
+    }
+
+    function isEmpty(obj){
+      return Object.keys(obj).length === 0 ? true : false;
+    }
   </script>
 </body>
 </html>
